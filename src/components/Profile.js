@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import EditProfile from "./EditProfile";
+import { useNavigate } from "react-router-dom";
 
 import "../css/Profile.css";
 export default function Profile(user, setAlert) {
@@ -11,7 +12,7 @@ export default function Profile(user, setAlert) {
   const [owner, setOwner] = useState(false);
   const [editing, setEditing] = useState(false);
   const params = useParams();
-
+  const navigate = useNavigate("/");
   useEffect(() => {
     updateProfile(params.username);
   }, [params.username, user]);
@@ -105,6 +106,26 @@ export default function Profile(user, setAlert) {
       />
       <div className="profile-banner">
         <h4>@{profileData.user_name}</h4>
+        <div className="follow-button">
+          {user.user !== "" && user && !owner ? (
+            <Button
+              variant={following ? "danger" : "success"}
+              onClick={followClick}
+            >
+              {following ? "Unfollow" : "Follow"}
+            </Button>
+          ) : null}
+          {user && owner ? (
+            <Button variant="primary" onClick={() => setEditing(true)}>
+              Edit
+            </Button>
+          ) : null}
+          {user.user == "" ? (
+            <Button variant="primary" onClick={() => navigate("/")}>
+              Follow
+            </Button>
+          ) : null}
+        </div>
         <div className="profile-data">
           <img
             src={
@@ -131,21 +152,6 @@ export default function Profile(user, setAlert) {
               <strong>Following</strong>
             </p>
             <h4>{profileData.following ? profileData.following : 0}</h4>
-          </div>
-          <div className="follow-button">
-            {user && !owner ? (
-              <Button
-                variant={following ? "danger" : "success"}
-                onClick={followClick}
-              >
-                {following ? "Unfollow" : "Follow"}
-              </Button>
-            ) : null}
-            {user && owner ? (
-              <Button variant="primary" onClick={() => setEditing(true)}>
-                Edit
-              </Button>
-            ) : null}
           </div>
         </div>
         <div className="profile-bio">
