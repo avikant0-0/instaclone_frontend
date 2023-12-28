@@ -9,7 +9,7 @@ export default function Search() {
 
   function search() {
     fetch(
-      "https://shy-erin-bluefish-gown.cyclic.app/searchForUsername?text=" +
+      "https://witty-tights-crow.cyclic.app/searchForUsername?text=" +
         searchText
     )
       .then((res) => res.json())

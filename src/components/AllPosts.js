@@ -6,7 +6,7 @@ export default function AllPosts({ user }) {
   const [allPostsData, setAllPosts] = useState(null);
   useEffect(() => {
     if (!user) {
-      fetch("https://shy-erin-bluefish-gown.cyclic.app/getAllPosts")
+      fetch("https://witty-tights-crow.cyclic.app/getAllPosts")
         .then((res) => {
           if (!res.ok) {
             throw new Error("Network response was not ok");
@@ -22,8 +22,7 @@ export default function AllPosts({ user }) {
         });
     } else {
       fetch(
-        "https://shy-erin-bluefish-gown.cyclic.app/getPostsOfFollowing?user=" +
-          user
+        "https://witty-tights-crow.cyclic.app/getPostsOfFollowing?user=" + user
       )
         .then((res) => res.json())
         .then((data) => setAllPosts(data))

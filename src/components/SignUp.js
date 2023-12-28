@@ -18,10 +18,7 @@ export default function SignUp({ setAlert, setUser }) {
         userName: userName,
       }),
     };
-    fetch(
-      "https://shy-erin-bluefish-gown.cyclic.app/createUser",
-      requestOptions
-    )
+    fetch("https://witty-tights-crow.cyclic.app/createUser", requestOptions)
       .then((res) => {
         return res.json();
       })

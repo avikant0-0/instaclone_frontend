@@ -27,9 +27,7 @@ export default function Profile(user, setAlert) {
     setFollowing(false);
   }
   function updateProfile(username) {
-    fetch(
-      "https://shy-erin-bluefish-gown.cyclic.app/getProfile?user=" + username
-    )
+    fetch("https://witty-tights-crow.cyclic.app/getProfile?user=" + username)
       .then((res) => res.json())
       .then((data) => {
         if (data.length === 0) {
@@ -40,8 +38,7 @@ export default function Profile(user, setAlert) {
           return;
         }
         fetch(
-          "https://shy-erin-bluefish-gown.cyclic.app/getPosts?username=" +
-            username
+          "https://witty-tights-crow.cyclic.app/getPosts?username=" + username
         )
           .then((res) => res.json())
           .then((posts) => {
@@ -68,10 +65,7 @@ export default function Profile(user, setAlert) {
         },
         body: JSON.stringify({ user: user.user, id: profileData._id }),
       };
-      fetch(
-        "https://shy-erin-bluefish-gown.cyclic.app/addFollower",
-        requestOptions
-      )
+      fetch("https://witty-tights-crow.cyclic.app/addFollower", requestOptions)
         .then((res) => res.json())
         .then((data) => updateProfile(params.username));
     } else {
@@ -83,7 +77,7 @@ export default function Profile(user, setAlert) {
         body: JSON.stringify({ user: user.user, id: profileData._id }),
       };
       fetch(
-        "https://shy-erin-bluefish-gown.cyclic.app/removeFollower",
+        "https://witty-tights-crow.cyclic.app/removeFollower",
         requestOptions
       )
         .then((res) => res.json())
