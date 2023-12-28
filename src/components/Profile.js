@@ -121,7 +121,7 @@ export default function Profile(user, setAlert) {
             </Button>
           ) : null}
           {user.user == "" ? (
-            <Button variant="primary" onClick={() => navigate("/")}>
+            <Button variant="primary" onClick={() => navigate("/login")}>
               Follow
             </Button>
           ) : null}

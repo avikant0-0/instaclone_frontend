@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createClient } from "@sanity/client";
 import Alert from "react-bootstrap/Alert";
 import {
   Button,
@@ -25,37 +26,65 @@ export default function EditProfile({
     setFirstName(profileData.first_name);
     setFirstName(profileData.last_name);
     setFirstName(profileData.bio);
+    console.log(firstName);
+    console.log(lastName);
   }, [profileData]);
 
-  function updateProfile() {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("user", user.user);
-    formData.append("first_name", firstName);
-    formData.append("last_name", lastName);
-    formData.append("bio", bio);
-
-    const requestOptions = {
-      method: "POST",
-      body: formData,
-    };
-
-    fetch(
-      "https://shy-erin-bluefish-gown.cyclic.app/updateProfile",
-      requestOptions
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        <Alert key="info" variant="info">
-          Profile Updated!
-        </Alert>;
-        if (file) data.image_url = URL.createObjectURL(file);
-        hideCallBack();
-      })
-      .catch((err) => {
-        setAlert({ variant: "danger", message: err.message });
-        hideCallBack();
-      });
+  async function updateProfile() {
+    const client = createClient({
+      projectId: "0yv1juf6",
+      dataset: "production",
+      apiVersion: "2021-08-29",
+      token:
+        "skSp9hCw8sjLUzi3t02752hAUBnDrebTxTfGVo1iGw4kqsfnOZBkTUMBKxZ1l8zePdq8P32NwLUoJbn6Cr6ApTD0Z9IVfHar3r4XNO4Iv1N6HK2i6krUwXOha1FJqOkP20HQYeIVWXNran8YBEGrwYMfnmVPQOxZaH0TRuRel6BfBSVEssSU",
+      useCdn: false,
+    });
+    const useri = await client.fetch(
+      `*[_type == "user" && user_name == $username]{
+      _id
+    }`,
+      { username: user.user }
+    );
+    const userid = useri[0]._id;
+    if (file) {
+      client.assets
+        .upload("image", file, {
+          filename: "image",
+          contentType: file.type,
+        })
+        .then((data) => {
+          client
+            .patch(userid)
+            .set({
+              first_name: firstName,
+              last_name: lastName,
+              bio,
+              photo: { asset: { _ref: data._id } },
+            })
+            .commit();
+        })
+        .then((_res) => {
+          <Alert key="info" variant="info">
+            Profile Updated!
+          </Alert>;
+          hideCallBack();
+        });
+    } else {
+      client
+        .patch(userid)
+        .set({
+          first_name: firstName,
+          last_name: lastName,
+          bio,
+        })
+        .commit()
+        .then((_res) => {
+          <Alert key="info" variant="info">
+            Profile Updated!
+          </Alert>;
+          hideCallBack();
+        });
+    }
   }
 
   return (
