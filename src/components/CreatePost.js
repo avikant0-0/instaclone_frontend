@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Form, Button, FormControl } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { createClient } from "@sanity/client";
 import "../css/createPosts.css";
 export default function CreatePost({ user, setAlert }) {
   const [caption, setCaption] = useState("");
@@ -10,23 +11,41 @@ export default function CreatePost({ user, setAlert }) {
   function uploadFile(e) {
     setFile(e.target.files[0]);
   }
-  function makePost() {
-    const formData = new FormData();
-    formData.append("user", user);
-    formData.append("caption", caption);
-    formData.append("file", file);
-    const requestOptions = {
-      method: "POST",
-      body: formData,
-    };
-
-    fetch(
-      "https://shy-erin-bluefish-gown.cyclic.app/createPost",
-      requestOptions
-    ).then((_res) => {
-      setAlert({ variant: "success", message: "Post Created!" });
-      navigate("/");
+  async function makePost() {
+    const client = createClient({
+      projectId: "0yv1juf6",
+      dataset: "production",
+      apiVersion: "2021-08-29",
+      token:
+        "skSp9hCw8sjLUzi3t02752hAUBnDrebTxTfGVo1iGw4kqsfnOZBkTUMBKxZ1l8zePdq8P32NwLUoJbn6Cr6ApTD0Z9IVfHar3r4XNO4Iv1N6HK2i6krUwXOha1FJqOkP20HQYeIVWXNran8YBEGrwYMfnmVPQOxZaH0TRuRel6BfBSVEssSU",
+      useCdn: false,
     });
+
+    const useri = await client.fetch(
+      `*[_type == "user" && user_name == $username]{
+      _id
+    }`,
+      { username: user }
+    );
+    const userid = useri[0]._id;
+    client.assets
+      .upload("image", file, {
+        filename: "image",
+        contentType: file.type,
+      })
+      .then((data) => {
+        const doc = {
+          _type: "post",
+          author: { _ref: userid },
+          photo: { asset: { _ref: data._id } },
+          description: caption,
+          created_at: new Date(),
+        };
+        client.create(doc).then((data) => {
+          setAlert({ variant: "success", message: "Post Created!" });
+          navigate("/");
+        });
+      });
   }
   useEffect(() => {
     if (!user) {
