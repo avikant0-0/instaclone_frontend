@@ -18,7 +18,7 @@ export default function SignUp({ setAlert, setUser }) {
         userName: userName,
       }),
     };
-    fetch("https://witty-tights-crow.cyclic.app/createUser", requestOptions)
+    fetch("https://ultra-garrulous-face.glitch.me/createUser", requestOptions)
       .then((res) => {
         return res.json();
       })

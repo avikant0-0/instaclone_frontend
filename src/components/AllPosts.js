@@ -6,13 +6,13 @@ export default function AllPosts({ user }) {
   const [allPostsData, setAllPosts] = useState(null);
   useEffect(() => {
     if (!user) {
-      fetch("https://witty-tights-crow.cyclic.app/getAllPosts")
+      fetch("https://ultra-garrulous-face.glitch.me/getAllPosts")
         .then((res) => {
           if (!res.ok) {
             throw new Error("Network response was not ok");
           }
           return res.json();
-        })
+        })  
         .then((data) => setAllPosts(data))
         .catch((err) => {
           console.error(
@@ -22,7 +22,7 @@ export default function AllPosts({ user }) {
         });
     } else {
       fetch(
-        "https://witty-tights-crow.cyclic.app/getPostsOfFollowing?user=" + user
+        "https://ultra-garrulous-face.glitch.me/getPostsOfFollowing?user=" + user
       )
         .then((res) => res.json())
         .then((data) => setAllPosts(data))

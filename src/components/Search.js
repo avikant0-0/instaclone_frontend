@@ -9,7 +9,7 @@ export default function Search() {
 
   function search() {
     fetch(
-      "https://witty-tights-crow.cyclic.app/searchForUsername?text=" +
+      "https://ultra-garrulous-face.glitch.me/searchForUsername?text=" +
         searchText
     )
       .then((res) => res.json())

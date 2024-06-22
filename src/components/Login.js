@@ -7,7 +7,7 @@ export default function Login({ setAlert, setUser }) {
   function handleLogin(e) {
     e.preventDefault();
 
-    fetch("https://witty-tights-crow.cyclic.app/getProfile?user=" + username)
+    fetch("https://ultra-garrulous-face.glitch.me/getProfile?user=" + username)
       .then((res) => res.json())
       .then((data) => {
         if (data.length > 0) {

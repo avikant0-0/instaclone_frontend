@@ -27,7 +27,7 @@ export default function Profile(user, setAlert) {
     setFollowing(false);
   }
   function updateProfile(username) {
-    fetch("https://witty-tights-crow.cyclic.app/getProfile?user=" + username)
+    fetch("https://ultra-garrulous-face.glitch.me/getProfile?user=" + username)
       .then((res) => res.json())
       .then((data) => {
         if (data.length === 0) {
@@ -38,7 +38,7 @@ export default function Profile(user, setAlert) {
           return;
         }
         fetch(
-          "https://witty-tights-crow.cyclic.app/getPosts?username=" + username
+          "https://ultra-garrulous-face.glitch.me/getPosts?username=" + username
         )
           .then((res) => res.json())
           .then((posts) => {
@@ -65,7 +65,7 @@ export default function Profile(user, setAlert) {
         },
         body: JSON.stringify({ user: user.user, id: profileData._id }),
       };
-      fetch("https://witty-tights-crow.cyclic.app/addFollower", requestOptions)
+      fetch("https://ultra-garrulous-face.glitch.me/addFollower", requestOptions)
         .then((res) => res.json())
         .then((data) => updateProfile(params.username));
     } else {
@@ -77,7 +77,7 @@ export default function Profile(user, setAlert) {
         body: JSON.stringify({ user: user.user, id: profileData._id }),
       };
       fetch(
-        "https://witty-tights-crow.cyclic.app/removeFollower",
+        "https://ultra-garrulous-face.glitch.me/removeFollower",
         requestOptions
       )
         .then((res) => res.json())
