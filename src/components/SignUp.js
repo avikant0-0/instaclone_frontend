@@ -18,7 +18,7 @@ export default function SignUp({ setAlert, setUser }) {
         userName: userName,
       }),
     };
-    fetch("https://ultra-garrulous-face.glitch.me/createUser", requestOptions)
+    fetch("https://pyjtwc-3001.csb.app/createUser", requestOptions)
       .then((res) => {
         return res.json();
       })

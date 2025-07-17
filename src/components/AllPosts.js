@@ -6,7 +6,7 @@ export default function AllPosts({ user }) {
   const [allPostsData, setAllPosts] = useState(null);
   useEffect(() => {
     if (!user) {
-      fetch("https://ultra-garrulous-face.glitch.me/getAllPosts")
+      fetch("https://pyjtwc-3001.csb.app/getAllPosts")
         .then((res) => {
           if (!res.ok) {
             throw new Error("Network response was not ok");
@@ -22,7 +22,7 @@ export default function AllPosts({ user }) {
         });
     } else {
       fetch(
-        "https://ultra-garrulous-face.glitch.me/getPostsOfFollowing?user=" + user
+        "https://pyjtwc-3001.csb.app/getPostsOfFollowing?user=" + user
       )
         .then((res) => res.json())
         .then((data) => setAllPosts(data))
